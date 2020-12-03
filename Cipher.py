@@ -25,6 +25,19 @@ class Encrypter:
 
     def encrypt(self,phrase):
         newstring = ""
+        number = int(self.key, 0)
+        key = []
+        i = 0
+        while(31**i<number):
+            i += 1
+        for j in range(i):
+            i = 0
+            while(31**i<number):
+                i += 1
+            value = number//(31**(i-1))
+            number -= value*(31**(i-1))
+            key.append(int(value))
+        self.key = key
         phrase = phrase.lower()
         for i in phrase:
             newstring += identitykey[self.key[identitykey.index(i)]-1]
@@ -42,6 +55,8 @@ class Encrypter:
         else:
             pass
         newstring = ""
+        #print("The length of the weirdlist (cc pending) is:",len(self.key))
+        #print("THIS IS THE ERROR",self.key)
         for i in phrase:
             newstring += identitykey[self.key.index(identitykey.index(i)+1)]
         self.phrase = newstring
@@ -66,14 +81,15 @@ class Encrypter:
                 n += 1
         print(key,"key length:",len(key)) 
         self.key = key
+        total = 0
+        for i in range(len(key)):
+            total += key[i]*(31**(29-i))
+        self.key  = hex(total)
+        print(self.key)
         return self.key
 
 
-   #def decrypt(self,phrase,key):
-
-       #print("test")
-
 test = Encrypter() #class creation
-#test.keycreate() #create a random key
-#test.encrypt("we can now speak in code") #Put text to encrypt here
-test.decrypt([8, 29, 9, 10, 13, 30, 2, 7, 27, 26, 6, 21, 16, 3, 28, 23, 19, 4, 18, 15, 14, 17, 5, 12, 11, 25, 24, 20, 1, 22],"k.ndxp.p") #put "null" for auto key use, and enter the key for specific key use. The second "null" is the arguement for the text paste in text there for message decryption
+test.keycreate() #create a random key
+test.encrypt("fuck yea") #Put text to encrypt here
+test.decrypt("null","null") #put "null" for auto key use, and enter the key for specific key use. The second "null" is the arguement for the text paste in text there for message decryption
